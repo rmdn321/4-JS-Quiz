@@ -6,6 +6,7 @@ var option3El = document.querySelector("#option3");
 var option4El = document.querySelector("#option4");
 var commentEl = document.querySelector("#comment");
 var progressEl = document.querySelector("#progress");
+var countdownEl = document.querySelector("#countdown");
 
 
 quizQuestions = [
@@ -131,22 +132,27 @@ quizQuestions = [
   // },
 ]
 timeLeftEl.textContent = "Time left: 20 m 0 s"
-timeleftCounter = 1200;
+timeleftCounter = 500; //set to 1200 in the end
 
 function startTimer(){
   
   var timerinterval = setInterval(function(){
     timeLeftEl.textContent = `Time left: ${parseInt(timeleftCounter/60)} m ${timeleftCounter%60} s`;
-    if(timeleftCounter === 0) {
+    if(timeleftCounter <= 0) {
       clearInterval(timerinterval);
-      console.log("game over");
+      sessionStorage.setItem("timeleftCounter", timeleftCounter);
+      sessionStorage.setItem("score", (score));
+      sessionStorage.setItem("noOfCorrectAnswers", (noOfCorrectAnswers));
+      document.location.href="end.html";
     };
     timeleftCounter--;    
   },(1000))  
 };
 
-let index = 0;
 function displayQuestion(index){
+  
+  sessionStorage.setItem("noOfquestions", quizQuestions.length);
+
   if (index < quizQuestions.length){
     questionEl.textContent = quizQuestions[index].question;
     option1El.textContent = quizQuestions[index].option1;
@@ -154,50 +160,90 @@ function displayQuestion(index){
     option3El.textContent = quizQuestions[index].option3;
     option4El.textContent = quizQuestions[index].option4;
     progressEl.textContent = `Question ${index+1} out of ${quizQuestions.length}`;
-
-    validateUserAnswer(index);
-  } else {
     
+    if (index === 0) {
+      validateUserAnswer(index);
+    }    
+  } else {
+    sessionStorage.setItem("allQuestions", true);
+    sessionStorage.setItem("score", (score));
+    sessionStorage.setItem("noOfCorrectAnswers", (noOfCorrectAnswers));    
+    document.location.href="end.html";
   }
 };
+
+let fifteenSecInterval = null;
+function start15Sectimer(displayNextquestion) {
+  let timerlength = 15
+  fifteenSecInterval = setInterval(function(){    
+    countdownEl.textContent = `${timerlength} seconds left to answer this question`;
+    if (timerlength <= 0) {
+      console.log(timerlength);
+      clearInterval(fifteenSecInterval);
+      countdownEl.textContent = ""
+      displayNextquestion();
+    }
+    timerlength--;
+  },1000)
+};
+
+function isRight(el){
+  el.classList.add("right");  
+  commentEl.textContent = "CORRECT !!";
+  commentEl.style.color = "#38b000";
+  score += 10;
+  noOfCorrectAnswers += 1; 
+};
+
+function isWrong(el) {
+  el.classList.add("wrong");
+  commentEl.textContent = "WRONG !!";
+  commentEl.style.color = "#c71f37";
+  timeleftCounter -= 60;
+  timeLeftEl.style.color = "#c71f37";
+};
+
+let score = 0
+let noOfCorrectAnswers = 0
 
 function validateUserAnswer(index){
   document.addEventListener('click', e => {
     let userAnswer = e.target.id;    
     let correctAnswer = quizQuestions[index].answer;    
-    
-    if (e.target.matches("button")){    
-
+   
+    if (e.target.matches("button")){
       if (userAnswer === correctAnswer) {
-        let clickedEl = document.querySelector("#"+correctAnswer);
-
-        clickedEl.classList.add("right");
-        commentEl.textContent = "CORRECT !!";
-        commentEl.style.color = "#38b000";
-
+        
+        clearInterval(fifteenSecInterval);
+        countdownEl.textContent = "";
+        let clickedEl = document.querySelector("#"+correctAnswer);        
+        isRight(clickedEl);
         setTimeout(function(){
           clickedEl.classList.remove("right");
           commentEl.textContent = "";
-          displayQuestion(index+1);
-        },3000)      
+          index = index + 1;
+          displayQuestion(index);
+        },1000)
+              
       } else {      
         let clickedEl = document.querySelector("#"+userAnswer);
-
-        clickedEl.classList.add("wrong");
-        commentEl.textContent = "WRONG !!";
-        commentEl.style.color = "#c71f37";
-        timeleftCounter -= 60;
-        timeLeftEl.style.color = "#c71f37";
-
+        isWrong(clickedEl);
+        if (!fifteenSecInterval) {
+          start15Sectimer(function(){
+            index = index + 1;
+            displayQuestion(index);
+          });
+        }        
         setTimeout(function(){
           clickedEl.classList.remove("wrong");
           commentEl.textContent = "";
           timeLeftEl.style.color = "#d8f3dc";
-        },3000)      
+        },3000)
+        
       }
     }
   })
 };
 
 startTimer();
-displayQuestion(index);
+displayQuestion(0);
