@@ -1,0 +1,33 @@
+.mx-60px {
+  margin-left: 60px;
+}
+
+.mt-20px {
+  margin-top: 20px;
+}
+
+#highscore-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+  margin-top: 30px; 
+  width: 100%; 
+ }
+
+#highscore-table th { 
+  padding: 10px;
+  font-size: 1.3rem;
+  background-color: #d8f3dc;
+  color: #003049; 
+}
+
+#highscore-table td { 
+  width: 100%;
+  padding: 10px;
+  font-size: 1.3rem;
+}
+
+#highscore-table tr:nth-child(odd) td {
+  background-color: #d8f3dc; 
+  color: #003049; 
+} 

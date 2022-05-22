@@ -9,7 +9,22 @@
   <title>JavaScript Quiz</title>
 </head>
 <body>
-  
+  <div id="highscores-page">
+    <div class="container highscores-page">
+      <h1 class="text-center">HIGH SCORES</h1>
+      <h2 class="mx-60px">The top 10 high scores are shown below.</h3>
+      <table id="highscore-table">          
+        <tr>
+          <th>NAME</th>
+          <th>SCORE</th>
+        </tr>         
+        <div id="highscore"></div>
+      </table>
+
+      <button id="go-back-btn" class="btn mt-20px mx-5px">Go Back</button>
+      <button id="clear-highscores-btn" class="btn mx-5px">Clear High Scores </button>
+    </div>
+  </div>  
 
   <script src="./assets/js/highscores.js"></script>
 </body>

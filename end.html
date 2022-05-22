@@ -17,12 +17,10 @@
         <h2 id="my-score"></h2>
         <h2 id="questions-answered"></h2>
         <h2>Enter your name below to save your score in the leaderboard</h2>
-        <form>
-          <input class="my" type="text" id="name" placeholder="Name" autofocus>
+        <form onSubmit="return false;">
+          <input class="my-name" type="text" id="name" placeholder="Name" autofocus>
         </form>
-
-
-
+        <h6 id="save-msg">Your name was saved sucessfully !</h5>
         <button id="play-again-btn" class="btn my">Play Again</button>
         <a id="view-high-score-btn" class="btn my" href="highscores.html">View High Score</a>
       </div>

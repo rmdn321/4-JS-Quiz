@@ -8,21 +8,26 @@ let score = sessionStorage.getItem("score");
 let noOfCorrectAnswers = sessionStorage.getItem("noOfCorrectAnswers");
 let thankYou = document.getElementById("thank-you");
 let noOfquestions = sessionStorage.getItem("noOfquestions"); 
-
+let playerName = document.getElementById("name");
+let saveMsg = document.getElementById("save-msg");
 
 playAgainBtn.addEventListener("click",function(){
+  sessionStorage.clear();
   location.href="quiz.html"
 });
 
 viewHighScoreBtn.addEventListener("click",function(){
+  sessionStorage.clear();
   location.href="highscores.html"
 });
 
-if (timeleftCounter <= 0) {  
-  thankYou.innerHTML = "GAME OVER !!";
-  thankYou.style.color = "#c71f37";
-  myScore.innerHTML = `SCORE: ${score} points`;
-  questionsAnswered.innerHTML = `You answered ${noOfCorrectAnswers} out of ${noOfquestions} questions correctly`;
+if (timeleftCounter <= 0) { 
+  if (noOfquestions){ 
+    thankYou.innerHTML = "GAME OVER !!";
+    thankYou.style.color = "#c71f37";  
+    myScore.innerHTML = `SCORE: ${score} points`;
+    questionsAnswered.innerHTML = `You answered ${noOfCorrectAnswers} out of ${noOfquestions} questions correctly`;
+  }  
 }
 
 if (allQuestions) {
@@ -32,4 +37,52 @@ if (allQuestions) {
   questionsAnswered.innerHTML = `You answered ${noOfCorrectAnswers} out of ${noOfquestions} questions correctly`;
 }
 
-sessionStorage.clear();
+if (score) {
+  let highscore = {
+    name_stored: "",
+    score_stored: score,
+  };
+  
+  sessionStorage.setItem("highscore", JSON.stringify(highscore));
+  
+  playerName.addEventListener("keyup", function(e){
+    e.preventDefault();  
+    let highscoreSS = JSON.parse(sessionStorage.getItem("highscore")); 
+    if (e.key === "Enter") {
+      saveMsg.style.display = "block";
+      this.value = "";
+      this.disabled = true;
+      let highscoreArr = JSON.parse(localStorage.getItem("highscoreArr"));  
+      insert_flag = false;
+      if (highscoreArr === null) {        
+        highscoreArr = [highscoreSS];
+        insert_flag = true;
+      } else {
+        for (let index = 0; index < highscoreArr.length; index++) {
+        if (highscoreSS.score_stored < highscoreArr[index].score_stored ) {
+          continue;
+        }
+        insert_flag = true;
+        highscoreArr.splice(index, 0, highscoreSS);
+        break;
+        }
+        if (!insert_flag){
+          highscoreArr.push(highscoreSS)
+        }
+      }
+      if (highscoreArr.length > 10) {
+        highscoreArr.pop();    
+      }  
+      localStorage.setItem("highscoreArr",JSON.stringify(highscoreArr));
+    } else {
+      saveMsg.style.display = "display"
+      highscoreSS.name_stored = playerName.value;
+       
+      sessionStorage.setItem("highscore", JSON.stringify(highscoreSS));
+      console.log(highscoreSS);
+    }  
+  })
+}
+
+
+
