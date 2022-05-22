@@ -65,9 +65,9 @@ if (score) {
         insert_flag = true;
       } else {
         for (let index = 0; index < highscoreArr.length; index++) {
-        if (highscoreSS.score_stored < highscoreArr[index].score_stored ) {
-          continue;
-        }
+          if (highscoreSS.score_stored < highscoreArr[index].score_stored ) {
+            continue;
+          }
         insert_flag = true;
         highscoreArr.splice(index, 0, highscoreSS);
         break;
