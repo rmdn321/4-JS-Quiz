@@ -1,3 +1,4 @@
+// Element query selectors for the page
 var timeLeftEl = document.querySelector("#time-left");
 var questionEl = document.querySelector("#question");
 var option1El = document.querySelector("#option1");
@@ -8,7 +9,7 @@ var commentEl = document.querySelector("#comment");
 var progressEl = document.querySelector("#progress");
 var countdownEl = document.querySelector("#countdown");
 
-
+// Quiz questions
 quizQuestions = [
   {
     question:"When a user views a page containing a JavaScript program, which machine actually executes the script?",
@@ -131,29 +132,36 @@ quizQuestions = [
     answer:"option1",
   },
 ]
-timeLeftEl.textContent = "Time left: 20 m 0 s"
-timeleftCounter = 1200; //set to 1200 in the end
 
-function startTimer(){
-  
+// Setting the countdown timer for the game - 20 mins
+timeLeftEl.textContent = "Time left: 20 m 0 s"
+timeleftCounter = 1200; 
+
+// Starting the timer when the page loads
+function startTimer(){  
   var timerinterval = setInterval(function(){
     timeLeftEl.textContent = `Time left: ${parseInt(timeleftCounter/60)} m ${timeleftCounter%60} s`;
+    // When the timer runs out, saving the variables required later in the session storage as all these data are session related and need not be stored in the local storage
     if(timeleftCounter <= 0) {
       clearInterval(timerinterval);
       sessionStorage.setItem("timeleftCounter", timeleftCounter);
       sessionStorage.setItem("score", (score));
       sessionStorage.setItem("noOfCorrectAnswers", (noOfCorrectAnswers));
+      // Displaying the end page
       document.location.href="end.html";
     };
     timeleftCounter--;    
   },(1000))  
 };
 
+// Function to display a question
 function displayQuestion(index){
   
+  // get the number of questions in the quiz
   sessionStorage.setItem("noOfquestions", quizQuestions.length);
   fifteenSecInterval = null;
   
+  // While ther are still questions left, display the question else it means that all the questions were answered
   if (index < quizQuestions.length){
     questionEl.textContent = quizQuestions[index].question;
     option1El.textContent = quizQuestions[index].option1;
@@ -165,7 +173,7 @@ function displayQuestion(index){
     if (index === 0) {
       validateUserAnswer(index);
     }    
-  } else {
+  } else { 
     sessionStorage.setItem("allQuestions", true);
     sessionStorage.setItem("score", (score));
     sessionStorage.setItem("noOfCorrectAnswers", (noOfCorrectAnswers));    
@@ -174,12 +182,14 @@ function displayQuestion(index){
 };
 
 let fifteenSecInterval = null;
+
+// Function to start a 15 second timer if the user chooses the wrong answer for the question displayed after which the next question is shown
 function start15Sectimer(displayNextquestion) {
   let timerlength = 15
   fifteenSecInterval = setInterval(function(){    
     countdownEl.textContent = `${timerlength} seconds left to answer this question`;
-    if (timerlength <= 0) {
-      console.log(timerlength);
+    countdownEl.style.color = "#c71f37";
+    if (timerlength <= 0) {      
       clearInterval(fifteenSecInterval);
       countdownEl.textContent = ""
       displayNextquestion();
@@ -188,6 +198,7 @@ function start15Sectimer(displayNextquestion) {
   },1000)
 };
 
+// Function to be called when the user chooses the correct answer
 function isRight(el){
   el.classList.add("right");  
   commentEl.textContent = "CORRECT !!";
@@ -196,6 +207,7 @@ function isRight(el){
   noOfCorrectAnswers += 1; 
 };
 
+// Function to be called when the user chooses the wrong answer
 function isWrong(el) {
   el.classList.add("wrong");
   commentEl.textContent = "WRONG !!";
@@ -207,6 +219,7 @@ function isWrong(el) {
 let score = 0
 let noOfCorrectAnswers = 0
 
+// Function to determine which option was chosen and if it was right or wrong
 function validateUserAnswer(index){
   document.addEventListener('click', e => {
     let userAnswer = e.target.id;    
@@ -246,5 +259,6 @@ function validateUserAnswer(index){
   })
 };
 
+// Calling the function to be called when the page loads
 startTimer();
 displayQuestion(0);

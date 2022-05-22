@@ -9,22 +9,28 @@
   <title>JavaScript Quiz</title>
 </head>
 <body>
-  
+<!-- HTML for displaying the quiz questions -->
   <div id="quiz-page">
     <div class="container quiz-page">
+      <!-- Countdown timer -->
       <div id="time-left">        
       </div>
+      <!-- Question -->
       <div id="question" class="mx-20px">
         <h1>This is the question</h1>
-      </div>      
+      </div>  
+      <!-- Options -->
       <div id="options">
         <button id="option1" class="option-btn">Option 1</button>
         <button id="option2" class="option-btn">Option 2</button>
         <button id="option3" class="option-btn">Option 3</button>
         <button id="option4" class="option-btn">Option 4</button>
-      </div>      
-      <div id="progress"></div>      
+      </div> 
+      <!-- Number of questions answered -->
+      <div id="progress"></div>   
+      <!-- A 15 second countdown in case you chose the wrong answer, after which the next question is automatically displayed -->
       <div id="countdown"></div>
+      <!-- Right or Wrong feedback after an option is chosen-->
       <div id="comment"></div>
     </div>
   </div>

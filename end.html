@@ -9,19 +9,26 @@
   <title>JavaScript Quiz</title>  
 </head>
 <body>
-
+<!-- HTML to be displayed after all questions are answered or when the timer runs out and the game is over-->
   <div id="end-page">
     <div class="container end-page">      
       <div class="text-center center-text">
+        <!-- Thank you or Game over is displayed -->
         <h1 class="mx-20px" id="thank-you"></h1>
+        <!-- Score -->
         <h2 id="my-score"></h2>
+        <!-- Number of questions answered correctly -->
         <h2 id="questions-answered"></h2>
-        <h2>Enter your name below to save your score in the leaderboard</h2>
+        <h2>Enter your name below and press ENTER to save your score in the leaderboard</h2>
+        <!-- Input to save your name in the high scores page -->
         <form onSubmit="return false;">
           <input class="my-name" type="text" id="name" placeholder="Name" autofocus>
         </form>
+        <!-- Save message -->
         <h6 id="save-msg">Your name was saved sucessfully !</h5>
+        <!-- Play agin button -->
         <button id="play-again-btn" class="btn my">Play Again</button>
+        <!-- View high scores button -->
         <a id="view-high-score-btn" class="btn my" href="highscores.html">View High Score</a>
       </div>
     </div>

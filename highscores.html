@@ -9,19 +9,23 @@
   <title>JavaScript Quiz</title>
 </head>
 <body>
+  <!-- HTML for displaying the high scores in the game so far -->
   <div id="highscores-page">
     <div class="container highscores-page">
       <h1 class="text-center">HIGH SCORES</h1>
-      <h2 class="mx-60px">The top 10 high scores are shown below.</h3>
-      <table id="highscore-table">          
+      <h2 class="text-center">The top 10 high scores are shown below.</h3>
+      <table id="highscore-table">  
+        <!-- Table header -->
         <tr>
           <th>NAME</th>
           <th>SCORE</th>
-        </tr>         
+        </tr> 
+        <!-- Name and highscore added dynamically-->
         <div id="highscore"></div>
       </table>
-
+      <!-- Go back to start page button -->
       <button id="go-back-btn" class="btn mt-20px mx-5px">Go Back</button>
+      <!-- Clear high scores button -->
       <button id="clear-highscores-btn" class="btn mx-5px">Clear High Scores </button>
     </div>
   </div>  

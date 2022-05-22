@@ -1,5 +1,8 @@
+/* Main CSS file for the quiz game */
+/* Importing a Google font */
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
 
+/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,6 +12,7 @@
   color: #d8f3dc;
 }
 
+/* Basic container CSS */
 .container {
   display: flex;
   flex-direction: column;
@@ -52,7 +56,6 @@
 .text-center {
   margin: 20px auto;
 }
-
 
 .mx-20px {
   margin: 20px 0;

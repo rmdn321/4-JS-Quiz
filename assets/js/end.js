@@ -1,3 +1,4 @@
+// Element query selectors for the page
 let playAgainBtn = document.getElementById("play-again-btn");
 let viewHighScoreBtn = document.getElementById("view-high-score-btn");
 let timeleftCounter = sessionStorage.getItem("timeleftCounter");
@@ -11,6 +12,7 @@ let noOfquestions = sessionStorage.getItem("noOfquestions");
 let playerName = document.getElementById("name");
 let saveMsg = document.getElementById("save-msg");
 
+// Event listeners for the buttons
 playAgainBtn.addEventListener("click",function(){
   sessionStorage.clear();
   location.href="quiz.html"
@@ -21,6 +23,7 @@ viewHighScoreBtn.addEventListener("click",function(){
   location.href="highscores.html"
 });
 
+// If the time runs out, without answering all the questions
 if (timeleftCounter <= 0) { 
   if (noOfquestions){ 
     thankYou.innerHTML = "GAME OVER !!";
@@ -30,6 +33,7 @@ if (timeleftCounter <= 0) {
   }  
 }
 
+// If all the questions were answered
 if (allQuestions) {
   thankYou.innerHTML = "THANK YOU FOR TAKING THE JAVASCRIPT QUIZ !!";
   thankYou.style.color = "#38b000";
@@ -37,6 +41,7 @@ if (allQuestions) {
   questionsAnswered.innerHTML = `You answered ${noOfCorrectAnswers} out of ${noOfquestions} questions correctly`;
 }
 
+// Storing the score and name in the local storage
 if (score) {
   let highscore = {
     name_stored: "",
@@ -44,7 +49,7 @@ if (score) {
   };
   
   sessionStorage.setItem("highscore", JSON.stringify(highscore));
-  
+  // when the user types their name and presses ENTER
   playerName.addEventListener("keyup", function(e){
     e.preventDefault();  
     let highscoreSS = JSON.parse(sessionStorage.getItem("highscore")); 
@@ -52,6 +57,7 @@ if (score) {
       saveMsg.style.display = "block";
       this.value = "";
       this.disabled = true;
+      // inserting the user's name and highscore in and array and dorting it in descending order
       let highscoreArr = JSON.parse(localStorage.getItem("highscoreArr"));  
       insert_flag = false;
       if (highscoreArr === null) {        
@@ -70,16 +76,15 @@ if (score) {
           highscoreArr.push(highscoreSS)
         }
       }
+      // If array length is more than 10, discard the lowest score
       if (highscoreArr.length > 10) {
         highscoreArr.pop();    
       }  
       localStorage.setItem("highscoreArr",JSON.stringify(highscoreArr));
     } else {
       saveMsg.style.display = "display"
-      highscoreSS.name_stored = playerName.value;
-       
-      sessionStorage.setItem("highscore", JSON.stringify(highscoreSS));
-      console.log(highscoreSS);
+      highscoreSS.name_stored = playerName.value;       
+      sessionStorage.setItem("highscore", JSON.stringify(highscoreSS));      
     }  
   })
 }
