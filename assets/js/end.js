@@ -57,21 +57,24 @@ if (score) {
       saveMsg.style.display = "block";
       this.value = "";
       this.disabled = true;
-      // inserting the user's name and highscore in and array and dorting it in descending order
+      // inserting the user's name and highscore in the array and sorting it in descending order
       let highscoreArr = JSON.parse(localStorage.getItem("highscoreArr"));  
       insert_flag = false;
       if (highscoreArr === null) {        
         highscoreArr = [highscoreSS];
         insert_flag = true;
       } else {
+        // No need to insert the name and highscore if it is lesser than the current highscore
         for (let index = 0; index < highscoreArr.length; index++) {
           if (highscoreSS.score_stored < highscoreArr[index].score_stored ) {
             continue;
           }
+        // else insert highscore in the array
         insert_flag = true;
         highscoreArr.splice(index, 0, highscoreSS);
         break;
         }
+        //Insert the highscore at the end if it's the lowest yet
         if (!insert_flag){
           highscoreArr.push(highscoreSS)
         }
